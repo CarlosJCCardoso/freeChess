@@ -1,11 +1,9 @@
-export default function InteractiveTable({history=[]}){
+export default function InteractiveTable(props){
 
     return(
         <div className="InteractiveTable">
             <table>
-                
-                {sideBySide(history)}
-                
+                {sideBySide(props.history)}
             </table>
         </div>
     );
@@ -14,15 +12,13 @@ export default function InteractiveTable({history=[]}){
 
     function separateMoves(history){
         let moves = []
-        for(let i = 0; i < history.length-2; i=i+2){
+        for(let i = 0; i < history.length-1; i=i+2){
             moves.push([history[i],history[i+1]])
         }
 
         if((history.length % 2) != 0){
             moves.push([history[history.length-1], ''])
         }
-
-        console.log(moves);
         return moves;
     }
 
@@ -35,14 +31,19 @@ export default function InteractiveTable({history=[]}){
                     moves.map((row,i) => (
                         <tr key={i}>
                             {row.map((move,j)=>(
-                                <td key={j}>{move}</td>
+                                <td key={j}>
+                                    <button onClick={handleClick(i,j)}>{move}</button>
+                                </td>
                             ))}
                         </tr>
                         ))
                 }
             </tbody>
         );
-    }       
+    }      
+    function handleClick(i,j){
+        props.onChange(i,j)
+    } 
     
 }
 
